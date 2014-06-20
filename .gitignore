@@ -1,0 +1,17 @@
+vendor/
+tools/phing-metadata
+bower_components/
+node_modules/
+_ss_environment.php
+silverstripe-cache
+.buildpath
+.project
+.settings
+.idea
+.env.local.php
+.env.php
+.DS_Store
+Thumbs.db
+composer.phar
+composer.lock
+*.min.min.*
