@@ -2,6 +2,9 @@
     "name"             : "milkyway-multimedia/hashable",
     "description"      : "Add a hash to any DataObject in Silverstripe",
     "type"             : "silverstripe-module",
+    "require"    : {
+        "hashids/hashids"    : "0.3.*@dev"
+    },
     "extra"            : {
         "installer-name": "hashable"
     },
