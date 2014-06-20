@@ -1,0 +1,12 @@
+{
+    "name"             : "milkyway-multimedia/hashable",
+    "description"      : "Add a hash to any DataObject in Silverstripe",
+    "type"             : "silverstripe-module",
+    "extra"            : {
+        "installer-name": "hashable"
+    },
+    "config"           : {
+        "process-timeout": 600
+    },
+    "minimum-stability": "dev"
+}
