@@ -1,5 +1,5 @@
 {
-    "name"             : "milkyway-multimedia/hashable",
+    "name"             : "milkyway-multimedia/silverstripe-hashable",
     "description"      : "Add a hash to any DataObject in Silverstripe",
     "type"             : "silverstripe-module",
     "require"    : {
