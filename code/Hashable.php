@@ -4,7 +4,7 @@
  * Milkyway Multimedia
  * Hashable.php
  *
- * @package milkyway-multimedia/hashable
+ * @package milkyway-multimedia/ss-hashable
  * @author Mellisa Hankins <mell@milkywaymultimedia.com.au>
  */
 class Hashable extends DataExtension {

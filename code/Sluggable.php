@@ -4,7 +4,7 @@
  * Milkyway Multimedia
  * Sluggable.php
  *
- * @package milkyway-multimedia/hashable
+ * @package milkyway-multimedia/ss-hashable
  * @author Mellisa Hankins <mell@milkywaymultimedia.com.au>
  */
 class Sluggable extends Hashable {
@@ -148,7 +148,7 @@ class Sluggable extends Hashable {
      *
      * @param string $salt
      *
-     * @return Hashids\Hashids|Milkyway\SS\Hashable\Contracts\Hasher
+     * @return Hashids\Hashids|Milkyway\SS\Hashable\Contracts\Slugger
      */
     protected function hasher($salt = '')
     {
