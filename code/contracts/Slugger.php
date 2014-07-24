@@ -1,5 +1,5 @@
 <?php
-namespace Milkyway\Hashable\Contracts;
+namespace Milkyway\SS\Hashable\Contracts;
 
 /**
  * Milkyway Multimedia

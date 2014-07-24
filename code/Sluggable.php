@@ -148,7 +148,7 @@ class Sluggable extends Hashable {
      *
      * @param string $salt
      *
-     * @return Hashids\Hashids|Milkyway\Hashable\Contracts\Hasher
+     * @return Hashids\Hashids|Milkyway\SS\Hashable\Contracts\Hasher
      */
     protected function hasher($salt = '')
     {
