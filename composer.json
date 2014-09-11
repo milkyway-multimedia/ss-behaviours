@@ -3,7 +3,7 @@
     "description"      : "Add a hash to any DataObject in Silverstripe",
     "type"             : "silverstripe-module",
     "require"    : {
-        "hashids/hashids"    : "0.3.*@dev"
+        "hashids/hashids"    : "1.0.0"
     },
     "extra"            : {
         "installer-name": "hashable"
