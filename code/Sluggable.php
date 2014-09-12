@@ -99,7 +99,7 @@ class Sluggable extends Hashable {
      */
     protected function encrypt($value = null, $salt = '')
     {
-        return $this->hasher($salt)->encrypt($this->findValueToHash($value));
+        return $this->hasher($salt)->encode($this->findValueToHash($value));
     }
 
     /**
@@ -112,7 +112,7 @@ class Sluggable extends Hashable {
      */
     protected function decrypt($value = null, $salt = '')
     {
-        return $this->hasher($salt)->decrypt($value ? : $this->owner->{$this->hashField});
+        return $this->hasher($salt)->decode($value ? : $this->owner->{$this->dbField});
     }
 
     /**

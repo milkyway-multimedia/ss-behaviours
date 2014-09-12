@@ -10,6 +10,6 @@ namespace Milkyway\SS\Hashable\Contracts;
  */
 
 interface Slugger {
-    public function encrypt($value);
-    public function decrypt($value);
+    public function encode($value);
+    public function decode($value);
 }
