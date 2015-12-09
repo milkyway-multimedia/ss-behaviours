@@ -1,5 +1,4 @@
-<?php
-namespace Milkyway\SS\Hashable\Contracts;
+<?php namespace Milkyway\SS\Behaviours\Contracts;
 
 /**
  * Milkyway Multimedia
@@ -9,7 +8,9 @@ namespace Milkyway\SS\Hashable\Contracts;
  * @author Mellisa Hankins <mell@milkywaymultimedia.com.au>
  */
 
-interface Slugger {
+interface Slugger
+{
     public function encode($value);
+
     public function decode($value);
 }

@@ -1,15 +1,21 @@
 {
-    "name"             : "milkyway-multimedia/ss-hashable",
-    "description"      : "Add a hash to any DataObject in Silverstripe",
-    "type"             : "silverstripe-module",
-    "require"    : {
-        "hashids/hashids"    : "1.0.0"
-    },
-    "extra"            : {
-        "installer-name": "hashable"
-    },
-    "config"           : {
-        "process-timeout": 600
-    },
-    "minimum-stability": "dev"
+  "name"             : "milkyway-multimedia/ss-behaviours",
+  "description"      : "Add a hash or slug to any DataObject in Silverstripe",
+  "type"             : "silverstripe-module",
+  "require"          : {
+    "hashids/hashids": "~1.0"
+  },
+  "require-dev"      : {
+    "silverstripe/sqlite3": "~1.3",
+    "phpunit/PHPUnit"     : "~3.7"
+  },
+  "replace" : {
+    "milkyway-multimedia/ss-hashable": "self.version"
+  },
+  "extra"            : {
+    "installer-name": "mwm-behaviours",
+    "branch-alias"  : {
+      "dev-master": "0.2.x-dev"
+    }
+  }
 }

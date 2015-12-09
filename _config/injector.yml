@@ -1,0 +1,6 @@
+---
+Name: mwm-behaviours--injector
+---
+Injector:
+  'Milkyway\SS\Behaviours\Contracts\Slugger':
+    class: 'Hashids\Hashids'
