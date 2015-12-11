@@ -10,7 +10,7 @@
 
 use DataExtension;
 
-use \Milkyway\SS\Behaviours\Traits\Hashable as CommonProperties;
+use Milkyway\SS\Behaviours\Traits\Hashable as CommonProperties;
 use Milkyway\SS\Behaviours\Traits\SilverstripeExtension;
 
 class Hashable extends DataExtension

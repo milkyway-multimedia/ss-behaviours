@@ -10,7 +10,7 @@
 
 use DataExtension;
 
-use \Milkyway\SS\Behaviours\Traits\Sluggable as CommonProperties;
+use Milkyway\SS\Behaviours\Traits\Sluggable as CommonProperties;
 use Milkyway\SS\Behaviours\Traits\SilverstripeExtension;
 
 class Sluggable extends DataExtension
@@ -39,12 +39,14 @@ class Sluggable extends DataExtension
 
     public static function get_extra_config($class, $extensionClass, $args)
     {
-        $length = isset($args[0]) ? $args[0] : 32;
-        $dbField = isset($args[2]) ? $args[2] : 'Hash';
+        $length = isset($args[2]) ? $args[2] : 32;
+        $dbField = isset($args[4]) ? $args[4] : 'Slug';
+        $saltField = isset($args[5]) ? $args[5] : 'Slug_Salt';
 
         return [
-            'db' => [
-                $dbField => 'Varchar(' . $length . ')',
+            'db'      => [
+                $dbField   => 'Varchar(' . $length . ')',
+                $saltField => 'Varchar(255)',
             ],
             'indexes' => [
                 $dbField => true,
