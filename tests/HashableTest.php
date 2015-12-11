@@ -13,6 +13,8 @@ use Milkyway\SS\Behaviours\Traits\Hashable;
 
 class HashableTest extends \SapphireTest
 {
+    protected $usesDatabase = true;
+
     protected $requiredExtensions = [
         'Milkyway\\SS\\Behaviours\\Tests\\HashableTest_Object' => [
             'Milkyway\\SS\\Behaviours\\Extensions\\Hashable',
