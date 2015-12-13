@@ -66,11 +66,11 @@ trait Sluggable
     }
 
     /**
-     * Generate a hash for this @DataObject
+     * Generate a slug for this @DataObject
      */
     public function generateSlug()
     {
-        if (!$this->workingRecord->{$this->dbField}) {
+        if ($this->workingRecord->{$this->dbField}) {
             return;
         }
 
@@ -82,12 +82,14 @@ trait Sluggable
      */
     protected function generateSlugAndSave()
     {
-        if (!$this->workingRecord->{$this->dbField}) {
-            $this->generateSlug();
+        if ($this->workingRecord->{$this->dbField}) {
+            return;
+        }
 
-            if ($this->workingRecord->{$this->dbField}) {
-                $this->workingRecord->write();
-            }
+        $this->generateSlug();
+
+        if ($this->workingRecord->{$this->dbField}) {
+            $this->workingRecord->write();
         }
     }
 
@@ -116,7 +118,7 @@ trait Sluggable
 
             while (!$this->hasUniqueSlug()) {
                 $salt = $generator->randomToken();
-                $this->workingRecord->{$this->dbField} = $this->encrypt($salt);
+                $this->workingRecord->{$this->dbField} = $this->encrypt(null, $salt);
             }
         }
 
@@ -131,8 +133,16 @@ trait Sluggable
     public function hasUniqueSlug()
     {
         $hash = $this->workingRecord->{$this->dbField} ?: $this->encrypt();
+        $list = $this->workingRecord->get()->filter($this->dbField, $hash);
 
-        return !($this->workingRecord->get()->filter($this->dbField, $hash)->exclude('ID', $this->workingRecord->ID)->exists());
+        if($this->workingRecord->ID) {
+            $list = $list->exclude('ID', $this->workingRecord->ID);
+        }
+        else {
+            $list = $list->exclude('ID', 0);
+        }
+
+        return !($list->exists());
     }
 
     /**

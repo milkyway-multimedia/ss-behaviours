@@ -40,7 +40,7 @@ trait Hashable
      */
     public function generateHash()
     {
-        if (!$this->workingRecord->{$this->dbField}) {
+        if ($this->workingRecord->{$this->dbField}) {
             return;
         }
 
@@ -64,12 +64,14 @@ trait Hashable
      */
     protected function generateHashAndSave()
     {
-        if (!$this->workingRecord->{$this->dbField}) {
-            $this->generateHash();
+        if ($this->workingRecord->{$this->dbField}) {
+            return;
+        }
 
-            if ($this->workingRecord->{$this->dbField}) {
-                $this->workingRecord->write();
-            }
+        $this->generateHash();
+
+        if ($this->workingRecord->{$this->dbField}) {
+            $this->workingRecord->write();
         }
     }
 
@@ -94,7 +96,13 @@ trait Hashable
     {
         $hash = $this->workingRecord->{$this->dbField} ?: $this->encrypt();
 
-        return !($this->workingRecord->get()->filter($this->dbField, $hash)->exclude('ID', $this->workingRecord->ID)->exists());
+        $list = $this->workingRecord->get()->filter($this->dbField, $hash);
+
+        if($this->workingRecord->ID) {
+            $list = $list->exclude('ID', $this->workingRecord->ID);
+        }
+
+        return !($list->exists());
     }
 
     protected function encrypt()
