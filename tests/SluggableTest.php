@@ -24,7 +24,8 @@ class SluggableTest extends \SapphireTest
         'Milkyway\\SS\\Behaviours\\Tests\\SluggableTest_WithTrait',
     ];
 
-    public function testExtension() {
+    public function testExtension()
+    {
         $object = new SluggableTest_Object;
         $object->write();
         $object->regenerateSlug();
@@ -33,7 +34,8 @@ class SluggableTest extends \SapphireTest
         $this->assertNotNull($object->Slug);
     }
 
-    public function testTrait() {
+    public function testTrait()
+    {
         $object = new SluggableTest_WithTrait;
         $object->write();
         $object->regenerateSlug();
@@ -43,13 +45,15 @@ class SluggableTest extends \SapphireTest
     }
 }
 
-class SluggableTest_Object extends DataObject implements \TestOnly {
+class SluggableTest_Object extends DataObject implements \TestOnly
+{
     private static $extensions = [
         "Milkyway\\SS\\Behaviours\\Extensions\\Sluggable",
     ];
 }
 
-class SluggableTest_WithTrait extends DataObject implements \TestOnly {
+class SluggableTest_WithTrait extends DataObject implements \TestOnly
+{
     use Sluggable;
 
     public function __construct()
