@@ -16,7 +16,9 @@ use Milkyway\SS\Behaviours\Traits\SilverstripeExtension;
 class Sluggable extends DataExtension
 {
     use CommonProperties;
-    use SilverstripeExtension;
+    use SilverstripeExtension {
+        setOwner as _setOwner;
+    }
 
     /**
      * Add a Sluggable extension to a DataObject
@@ -34,7 +36,12 @@ class Sluggable extends DataExtension
     {
         parent::__construct();
         $this->init($encryptUsing, $salt, $length, $unique);
-        $this->initRecord();
+        $this->initRecord('slugWorkingRecord');
+    }
+
+    public function setOwner($owner, $ownerBaseClass = null, $workingRecordField = 'slugWorkingRecord')
+    {
+        $this->_setOwner($owner, $ownerBaseClass, $workingRecordField);
     }
 
     public static function get_extra_config($class, $extensionClass, $args)

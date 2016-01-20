@@ -16,13 +16,13 @@ trait SilverstripeExtension
     // Create a hash after writing an object (be careful of loops)
     protected $executeOnAfterWrite = false;
 
-    private function initRecord() {
-        $this->workingRecord = $this->owner;
+    private function initRecord($workingRecordField = 'hashWorkingRecord') {
+        $this->{$workingRecordField} = $this->owner;
     }
 
-    public function setOwner($owner, $ownerBaseClass = null)
+    public function setOwner($owner, $ownerBaseClass = null, $workingRecordField = 'hashWorkingRecord')
     {
         parent::setOwner($owner, $ownerBaseClass);
-        $this->workingRecord = $this->owner;
+        $this->{$workingRecordField} = $this->owner;
     }
 }

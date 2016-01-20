@@ -33,7 +33,7 @@ class Hashable extends DataExtension
     {
         parent::__construct();
         $this->init($length, $unique, $dbField);
-        $this->initRecord();
+        $this->initRecord('hashWorkingRecord');
     }
 
     public static function get_extra_config($class, $extensionClass, $args)
@@ -42,7 +42,7 @@ class Hashable extends DataExtension
         $dbField = isset($args[2]) ? $args[2] : 'Hash';
 
         return [
-            'db' => [
+            'db'      => [
                 $dbField => 'Varchar(' . $length . ')',
             ],
             'indexes' => [
