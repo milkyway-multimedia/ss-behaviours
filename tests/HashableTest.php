@@ -62,10 +62,6 @@ class HashableTest_WithTrait extends DataObject implements \TestOnly
     use Hashable;
     use DefaultHashableFields;
 
-    private static $db = [
-        'Hash' => 'Varchar(256)',
-    ];
-
     public function __construct()
     {
         parent::__construct();
