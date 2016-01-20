@@ -26,7 +26,8 @@ class HashableTest extends \SapphireTest
         'Milkyway\\SS\\Behaviours\\Tests\\HashableTest_WithTrait',
     ];
 
-    public function testExtension() {
+    public function testExtension()
+    {
         $object = new HashableTest_Object;
         $object->Title = 'test';
         $object->regenerateHash();
@@ -34,7 +35,8 @@ class HashableTest extends \SapphireTest
         $this->assertNotEquals($object->ID, $object->Hash);
     }
 
-    public function testTrait() {
+    public function testTrait()
+    {
         $object = new HashableTest_WithTrait;
         $object->write();
         $object->regenerateHash();
@@ -43,7 +45,8 @@ class HashableTest extends \SapphireTest
     }
 }
 
-class HashableTest_Object extends DataObject implements \TestOnly {
+class HashableTest_Object extends DataObject implements \TestOnly
+{
     private static $db = [
         'Title' => 'Varchar',
     ];
@@ -53,7 +56,8 @@ class HashableTest_Object extends DataObject implements \TestOnly {
     ];
 }
 
-class HashableTest_WithTrait extends DataObject implements \TestOnly {
+class HashableTest_WithTrait extends DataObject implements \TestOnly
+{
     use Hashable;
 
     public function __construct()
