@@ -9,6 +9,7 @@
  */
 
 use DataObject;
+use Milkyway\SS\Behaviours\Traits\DefaultSluggableFields;
 use Milkyway\SS\Behaviours\Traits\Sluggable;
 
 class SluggableTest extends \SapphireTest
@@ -55,6 +56,7 @@ class SluggableTest_Object extends DataObject implements \TestOnly
 class SluggableTest_WithTrait extends DataObject implements \TestOnly
 {
     use Sluggable;
+    use DefaultSluggableFields;
 
     public function __construct()
     {

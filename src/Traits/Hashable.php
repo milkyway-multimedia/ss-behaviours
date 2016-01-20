@@ -13,26 +13,26 @@ use RandomGenerator;
 trait Hashable
 {
     // The field that stores the hash
-    protected $dbField = 'Hash';
+    protected $hashDbField = 'Hash';
 
     // Length of hash
-    protected $length = 32;
+    protected $hashLength = 32;
 
     // Hash must be unique on save
-    protected $mustBeUnique = true;
+    protected $hashMustBeUnique = true;
 
-    private $workingRecord;
+    private $hashWorkingRecord;
 
     public function init($length = 32, $unique = true, $dbField = '')
     {
-        $this->length = $length;
-        $this->mustBeUnique = (bool)$unique;
+        $this->hashLength = $length;
+        $this->hashMustBeUnique = (bool)$unique;
 
         if($dbField) {
-            $this->dbField = $dbField;
+            $this->hashDbField = $dbField;
         }
 
-        $this->workingRecord = $this;
+        $this->hashWorkingRecord = $this;
     }
 
     /**
@@ -40,7 +40,7 @@ trait Hashable
      */
     public function generateHash()
     {
-        if ($this->workingRecord->{$this->dbField}) {
+        if ($this->hashWorkingRecord->{$this->hashDbField}) {
             return;
         }
 
@@ -52,9 +52,9 @@ trait Hashable
      */
     public function regenerateHash()
     {
-        $this->workingRecord->{$this->dbField} = $this->encrypt();
+        $this->hashWorkingRecord->{$this->hashDbField} = $this->encrypt();
 
-        if ($this->mustBeUnique && !$this->hasUniqueHash()) {
+        if ($this->hashMustBeUnique && !$this->hasUniqueHash()) {
             $this->regenerateHash();
         }
     }
@@ -64,14 +64,14 @@ trait Hashable
      */
     protected function generateHashAndSave()
     {
-        if ($this->workingRecord->{$this->dbField}) {
+        if ($this->hashWorkingRecord->{$this->hashDbField}) {
             return;
         }
 
         $this->generateHash();
 
-        if ($this->workingRecord->{$this->dbField}) {
-            $this->workingRecord->write();
+        if ($this->hashWorkingRecord->{$this->hashDbField}) {
+            $this->hashWorkingRecord->write();
         }
     }
 
@@ -84,7 +84,7 @@ trait Hashable
      */
     public function findByHash($hash)
     {
-        return $this->workingRecord->get()->filter($this->dbField, $hash)->first();
+        return $this->hashWorkingRecord->get()->filter($this->hashDbField, $hash)->first();
     }
 
     /**
@@ -94,12 +94,12 @@ trait Hashable
      */
     public function hasUniqueHash()
     {
-        $hash = $this->workingRecord->{$this->dbField} ?: $this->encrypt();
+        $hash = $this->hashWorkingRecord->{$this->hashDbField} ?: $this->encrypt();
 
-        $list = $this->workingRecord->get()->filter($this->dbField, $hash);
+        $list = $this->hashWorkingRecord->get()->filter($this->hashDbField, $hash);
 
-        if($this->workingRecord->ID) {
-            $list = $list->exclude('ID', $this->workingRecord->ID);
+        if($this->hashWorkingRecord->ID) {
+            $list = $list->exclude('ID', $this->hashWorkingRecord->ID);
         }
 
         return !($list->exists());
@@ -107,6 +107,6 @@ trait Hashable
 
     protected function encrypt()
     {
-        return substr((new RandomGenerator)->randomToken(), 0, $this->length);
+        return substr((new RandomGenerator)->randomToken(), 0, $this->hashLength);
     }
 }

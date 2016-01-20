@@ -15,27 +15,27 @@ use Object;
 trait Sluggable
 {
     // The Hash Service object for this Extension
-    protected $hasher;
+    protected $slugHasher;
 
     // The field to hash
-    protected $dbField = 'Slug';
+    protected $slugDbField = 'Slug';
 
     // The salt that was used to generate this hash
-    protected $dbFieldForSalt = 'Slug_Salt';
+    protected $slugDbFieldForSalt = 'Slug_Salt';
 
     // The field to encrypt
-    protected $encryptUsing = 'ID';
+    protected $slugEncryptUsing = 'ID';
 
-    // The encryption salt (best to change this)
-    protected $salt = 'Hmm.... Salty';
+    // The default encryption salt (best to change this)
+    protected $slugSalt = 'Hmm.... Salty';
 
     // Length of hash
-    protected $length = 32;
+    protected $slugLength = 32;
 
     // Slug must be unique on save
-    protected $mustBeUnique = true;
+    protected $slugMustBeUnique = true;
 
-    private $workingRecord;
+    private $slugWorkingRecord;
 
     public function init(
         $encryptUsing = 'ID',
@@ -45,24 +45,24 @@ trait Sluggable
         $dbField = '',
         $dbFieldForSalt = ''
     ) {
-        $this->encryptUsing = $encryptUsing;
+        $this->slugEncryptUsing = $encryptUsing;
 
         if ($salt) {
-            $this->salt = $salt;
+            $this->slugSalt = $salt;
         }
 
-        $this->length = $length;
+        $this->slugLength = $length;
         $this->mustBeUnique = (bool)$unique;
 
         if ($dbField) {
-            $this->dbField = $dbField;
+            $this->slugDbField = $dbField;
         }
 
         if ($dbFieldForSalt) {
-            $this->dbFieldForSalt = $dbFieldForSalt;
+            $this->slugDbFieldForSalt = $dbFieldForSalt;
         }
 
-        $this->workingRecord = $this;
+        $this->slugWorkingRecord = $this;
     }
 
     /**
@@ -70,7 +70,7 @@ trait Sluggable
      */
     public function generateSlug()
     {
-        if ($this->workingRecord->{$this->dbField}) {
+        if ($this->slugWorkingRecord->{$this->slugDbField}) {
             return;
         }
 
@@ -82,14 +82,14 @@ trait Sluggable
      */
     protected function generateSlugAndSave()
     {
-        if ($this->workingRecord->{$this->dbField}) {
+        if ($this->slugWorkingRecord->{$this->slugDbField}) {
             return;
         }
 
         $this->generateSlug();
 
-        if ($this->workingRecord->{$this->dbField}) {
-            $this->workingRecord->write();
+        if ($this->slugWorkingRecord->{$this->slugDbField}) {
+            $this->slugWorkingRecord->write();
         }
     }
 
@@ -102,7 +102,7 @@ trait Sluggable
      */
     public function findBySlug($slug)
     {
-        return $this->workingRecord->get()->filter($this->dbField, $slug)->first();
+        return $this->slugWorkingRecord->get()->filter($this->slugDbField, $slug)->first();
     }
 
     /**
@@ -110,19 +110,19 @@ trait Sluggable
      */
     public function regenerateSlug()
     {
-        $this->workingRecord->{$this->dbField} = $this->encrypt();
-        $salt = $this->salt;
+        $this->slugWorkingRecord->{$this->slugDbField} = $this->encrypt();
+        $salt = $this->slugSalt;
 
         if ($this->mustBeUnique && !$this->hasUniqueSlug()) {
             $generator = new RandomGenerator();
 
             while (!$this->hasUniqueSlug()) {
                 $salt = $generator->randomToken();
-                $this->workingRecord->{$this->dbField} = $this->encrypt(null, $salt);
+                $this->slugWorkingRecord->{$this->slugDbField} = $this->encrypt(null, $salt);
             }
         }
 
-        $this->workingRecord->{$this->dbFieldForSalt} = $salt;
+        $this->slugWorkingRecord->{$this->slugDbFieldForSalt} = $salt;
     }
 
     /**
@@ -132,11 +132,11 @@ trait Sluggable
      */
     public function hasUniqueSlug()
     {
-        $hash = $this->workingRecord->{$this->dbField} ?: $this->encrypt();
-        $list = $this->workingRecord->get()->filter($this->dbField, $hash);
+        $hash = $this->slugWorkingRecord->{$this->slugDbField} ?: $this->encrypt();
+        $list = $this->slugWorkingRecord->get()->filter($this->slugDbField, $hash);
 
-        if($this->workingRecord->ID) {
-            $list = $list->exclude('ID', $this->workingRecord->ID);
+        if($this->slugWorkingRecord->ID) {
+            $list = $list->exclude('ID', $this->slugWorkingRecord->ID);
         }
         else {
             $list = $list->exclude('ID', 0);
@@ -168,7 +168,7 @@ trait Sluggable
      */
     public function decrypt($value = null, $salt = '')
     {
-        $return = $this->hasher($salt)->decode($value ?: $this->workingRecord->{$this->dbField});
+        $return = $this->hasher($salt)->decode($value ?: $this->slugWorkingRecord->{$this->slugDbField});
 
         if(is_array($return)) {
             $return = array_pop($return);
@@ -187,12 +187,12 @@ trait Sluggable
     protected function findValueToSlug($encryptUsing = null)
     {
         if (!$encryptUsing) {
-            if (is_array($this->encryptUsing)) {
-                foreach ($this->encryptUsing as $field) {
-                    $encryptUsing .= $this->workingRecord->$field;
+            if (is_array($this->slugEncryptUsing)) {
+                foreach ($this->slugEncryptUsing as $field) {
+                    $encryptUsing .= $this->slugWorkingRecord->$field;
                 }
             } else {
-                $encryptUsing = $this->workingRecord->{$this->encryptUsing};
+                $encryptUsing = $this->slugWorkingRecord->{$this->slugEncryptUsing};
             }
         }
 
@@ -210,16 +210,16 @@ trait Sluggable
      */
     protected function hasher($salt = '')
     {
-        $salt = $salt ?: $this->workingRecord->{$this->dbFieldForSalt};
+        $salt = $salt ?: $this->slugWorkingRecord->{$this->slugDbFieldForSalt} ?: $this->slugSalt;
 
         if ($salt) {
-            return Object::create('Milkyway\SS\Behaviours\Contracts\Slugger', $salt, $this->length);
+            return Object::create('Milkyway\SS\Behaviours\Contracts\Slugger', $salt, $this->slugLength);
         }
 
-        if (!$this->hasher) {
-            $this->hasher = Object::create('Milkyway\SS\Behaviours\Contracts\Slugger', $this->salt, $this->length);
+        if (!$this->slugHasher) {
+            $this->slugHasher = Object::create('Milkyway\SS\Behaviours\Contracts\Slugger', $salt, $this->slugLength);
         }
 
-        return $this->hasher;
+        return $this->slugHasher;
     }
 }

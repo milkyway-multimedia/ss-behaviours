@@ -9,6 +9,7 @@
  */
 
 use DataObject;
+use Milkyway\SS\Behaviours\Traits\DefaultHashableFields;
 use Milkyway\SS\Behaviours\Traits\Hashable;
 
 class HashableTest extends \SapphireTest
@@ -59,6 +60,11 @@ class HashableTest_Object extends DataObject implements \TestOnly
 class HashableTest_WithTrait extends DataObject implements \TestOnly
 {
     use Hashable;
+    use DefaultHashableFields;
+
+    private static $db = [
+        'Hash' => 'Varchar(256)',
+    ];
 
     public function __construct()
     {
